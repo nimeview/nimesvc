@@ -1,0 +1,51 @@
+version 1
+
+type User:
+    id: int
+    name: string
+    status: Status
+
+type User@2:
+    id: int
+    name: string
+    email: string
+
+enum Status:
+    Active
+    Disabled
+
+service RuntimeTs ts:
+    address "127.0.0.1"
+    port 4301
+
+    use rt "./modules/rt.ts"
+
+    GET "/health":
+        response string
+        call rt.health
+
+    POST "/users":
+        input:
+            body:
+                name: string
+                email: string
+        response 201 User@2
+        call rt.createUser(body.name, body.email)
+
+    GET "/count":
+        response int
+        call rt.getCount
+
+    socket Chat "/ws":
+        use rt "./modules/rt.ts"
+        auth bearer
+        headers:
+            authorization: string
+        inbound:
+            Join -> rt.wsJoin
+            MessageIn -> rt.wsMessageIn
+            Ping -> rt.wsPing
+            Exit -> rt.wsExit
+        outbound:
+            MessageOut -> rt.wsMessageOut
+            Error -> rt.wsError

@@ -1,0 +1,8 @@
+service API:
+    config:
+        address: "127.0.0.1"
+        port: 8080
+
+    GET "/health":
+        response 200
+        healthcheck

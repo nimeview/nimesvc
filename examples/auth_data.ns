@@ -1,0 +1,73 @@
+output "./.nimesvc"
+
+contract Token:
+    token: string
+
+contract Audit:
+    user_id: string
+    action: string
+
+contract Record:
+    id: string
+    ok: bool
+
+contract Error:
+    message: string
+
+service Auth rust:
+    config:
+        address: "127.0.0.1"
+        port: 8081
+        base_url: "http://127.0.0.1:8081"
+
+    use auth "./examples/modules/auth.rs"
+
+    POST "/login":
+        input:
+            body:
+                username: string
+                password: string
+        responses:
+            200 Token
+            401 Error
+        call auth.login(body.username, body.password)
+
+    GET "/validate/{token}":
+        input:
+            path:
+                token: string
+        responses:
+            200 bool
+            401 Error
+        call auth.validate(path.token)
+
+    POST "/audit":
+        input:
+            body:
+                user_id: string
+                action: string
+        responses:
+            201 Audit
+        call Data.data.add_audit(body.user_id, body.action)
+
+service Data go:
+    config:
+        address: "127.0.0.1"
+        port: 8082
+        base_url: "http://127.0.0.1:8082"
+
+    use data "./examples/modules/data.go"
+
+    GET "/records":
+        responses:
+            200 array<Record>
+        call data.list_records
+
+    GET "/check/{token}":
+        input:
+            path:
+                token: string
+        responses:
+            200 bool
+            401 Error
+        call Auth.auth.validate(path.token)

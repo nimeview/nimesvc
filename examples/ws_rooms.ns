@@ -1,0 +1,21 @@
+type ChatMessage:
+    text: string
+
+service ChatRooms rust:
+    config:
+        address: "127.0.0.1"
+        port: 8093
+    use wsSvc "./modules/ws_rooms.rs"
+
+    socket Chat "/ws":
+        room "chat"
+
+        trigger SendMessage:
+            room "chat"
+            payload ChatMessage
+
+        inbound:
+            SendMessage -> wsSvc.send_message
+
+        outbound:
+            MessageOut -> wsSvc.message_out

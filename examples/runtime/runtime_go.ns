@@ -1,0 +1,57 @@
+version 1
+
+type User:
+    id: int
+    name: string
+    status: Status
+
+type User@2:
+    id: int
+    name: string
+    email: string
+
+enum Status:
+    Active
+    Disabled
+
+rpc RuntimeGo.GetUser:
+    input:
+        id: int
+    output User@2
+    call rt.GetUser(input.id)
+
+service RuntimeGo go:
+    address "127.0.0.1"
+    port 4201
+
+    use rt "./modules/rt.go"
+
+    GET "/health":
+        response string
+        call rt.Health
+
+    POST "/users":
+        input:
+            body:
+                name: string
+                email: string
+        response 201 User@2
+        call rt.CreateUser(body.name, body.email)
+
+    GET "/count":
+        response int
+        call rt.GetCount
+
+    socket Chat "/ws":
+        use rt "./modules/rt.go"
+        auth bearer
+        headers:
+            authorization: string
+        inbound:
+            Join -> rt.WSJoin
+            MessageIn -> rt.WSMessageIn
+            Ping -> rt.WSPing
+            Exit -> rt.WSExit
+        outbound:
+            MessageOut -> rt.WSMessageOut
+            Error -> rt.WSError

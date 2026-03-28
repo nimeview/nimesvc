@@ -1,0 +1,18 @@
+event UserCreated:
+    payload:
+        id: string
+        email: string
+
+service Events rust:
+    config:
+        address: "127.0.0.1"
+        port: 8090
+
+    events_config:
+        broker: redis
+        url: "redis://127.0.0.1:6379"
+        group: "events"
+        consumer: "events-1"
+
+    emit UserCreated
+    subscribe UserCreated

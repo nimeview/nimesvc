@@ -1,0 +1,21 @@
+type ChatMessage:
+    text: string
+
+service ChatRoomsGo go:
+    config:
+        address: "127.0.0.1"
+        port: 8094
+    use wsSvc "./modules/ws_rooms.go"
+
+    socket Chat "/ws":
+        room "chat"
+
+        trigger SendMessage:
+            room "chat"
+            payload ChatMessage
+
+        inbound:
+            SendMessage -> wsSvc.SendMessage
+
+        outbound:
+            MessageOut -> wsSvc.MessageOut

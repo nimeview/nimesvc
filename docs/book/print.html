@@ -1,0 +1,1847 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>NimeScript DSL</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-4a7142d5.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-fcb1bf0f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">NimeScript DSL</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="nimesvc-overview"><a class="header" href="#nimesvc-overview">nimesvc Overview</a></h1>
+<p><code>nimesvc</code> is a compact DSL and code generator for API contracts and runtime wiring.</p>
+<p>You describe a service once and generate:</p>
+<ul>
+<li>OpenAPI 3.0.3 documents</li>
+<li>HTTP servers in Rust, Go, and TypeScript</li>
+<li>gRPC server output</li>
+<li>WebSocket and event runtime helpers</li>
+</ul>
+<h2 id="what-the-dsl-covers"><a class="header" href="#what-the-dsl-covers">What the DSL covers</a></h2>
+<p>The DSL lets you describe:</p>
+<ul>
+<li>routes and response contracts</li>
+<li>typed inputs (<code>path</code>, <code>query</code>, <code>body</code>, <code>headers</code>)</li>
+<li>shared types and enums</li>
+<li>auth, middleware, rate limits, and env requirements</li>
+<li>RPC methods, WebSocket services, and events</li>
+<li>multi-service projects in one file</li>
+</ul>
+<h2 id="what-the-generator-does"><a class="header" href="#what-the-generator-does">What the generator does</a></h2>
+<p>From the same source file, <code>nimesvc</code> can:</p>
+<ul>
+<li>generate server code</li>
+<li>generate OpenAPI output</li>
+<li>wire modules into handlers</li>
+<li>prepare events, cross-service calls, and protocol-specific runtime code</li>
+</ul>
+<h2 id="minimal-example"><a class="header" href="#minimal-example">Minimal example</a></h2>
+<pre><code class="language-ns">service API:
+    GET "/health":
+        response 200
+        healthcheck
+</code></pre>
+<p>Generate and run:</p>
+<pre><code class="language-bash">nimesvc generate api.ns rust
+nimesvc run api.ns rust
+</code></pre>
+<h2 id="recommended-reading-order"><a class="header" href="#recommended-reading-order">Recommended reading order</a></h2>
+<ul>
+<li><a href="#quick-start">Quick Start</a></li>
+<li><a href="#features">Features</a></li>
+<li><a href="#dsl">DSL</a></li>
+<li><a href="#modules-and-calls">Modules and Calls</a></li>
+<li><a href="#types-and-validation-1">Types and Validation</a></li>
+<li><a href="#rpc-grpc">RPC</a></li>
+<li><a href="#events">Events</a></li>
+<li><a href="#websocket-2">WebSocket</a></li>
+<li><a href="#cli-reference">CLI</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="quick-start"><a class="header" href="#quick-start">Quick Start</a></h1>
+<p>This guide gets you from an empty folder to a running HTTP service.</p>
+<h2 id="1-init"><a class="header" href="#1-init">1. Init</a></h2>
+<pre><code class="language-bash">nimesvc init
+</code></pre>
+<p>This declares one service with one health route.</p>
+<h2 id="2-generate-a-server"><a class="header" href="#2-generate-a-server">2. Generate a server</a></h2>
+<pre><code class="language-bash">nimesvc generate main.ns rust
+</code></pre>
+<p>By default, output goes to <code>.nimesvc/&lt;ServiceName&gt;</code>.</p>
+<h2 id="3-run-it"><a class="header" href="#3-run-it">3. Run it</a></h2>
+<pre><code class="language-bash">nimesvc run main.ns
+</code></pre>
+<p>For an edit-and-restart loop, use:</p>
+<pre><code class="language-bash">nimesvc dev main.ns
+</code></pre>
+<h2 id="4-call-the-route"><a class="header" href="#4-call-the-route">4. Call the route</a></h2>
+<pre><code class="language-bash">curl http://127.0.0.1:8080/health
+</code></pre>
+<p>You should get <code>200 OK</code>.</p>
+<h2 id="5-add-a-module-backed-route"><a class="header" href="#5-add-a-module-backed-route">5. Add a module-backed route</a></h2>
+<p>When you want real business logic, add a module file and call it from the DSL:</p>
+<pre><code class="language-ns">use core "./modules/core.rs"
+
+service API:
+    GET "/hello":
+        responses:
+            200 string
+        call core.hello
+</code></pre>
+<p>Create <code>./modules/core.rs</code>:</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub async fn hello() -&gt; Result&lt;String, axum::http::StatusCode&gt; {
+    Ok("hello".to_string())
+}
+<span class="boring">}</span></code></pre>
+<p>Then regenerate:</p>
+<pre><code class="language-bash">nimesvc generate main.ns rust
+</code></pre>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next steps</a></h2>
+<ul>
+<li>Add shared types and validation rules in <a href="#types-and-validation-1">Types and Validation</a>.</li>
+<li>Add auth or middleware in <a href="#auth-and-middleware">Auth and Middleware</a>.</li>
+<li>See more complete snippets in <a href="#examples">Examples</a>.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="features"><a class="header" href="#features">Features</a></h1>
+<p><code>nimesvc</code> focuses on describing APIs with minimal syntax while generating fully typed servers and runtime output.</p>
+<h2 id="current-status"><a class="header" href="#current-status">Current Status</a></h2>
+<ul>
+<li>HTTP DSL, OpenAPI generation, Rust/TypeScript/Go servers, events, and CLI workflows are implemented.</li>
+<li>gRPC and WebSocket generation/runtime are implemented and covered by smoke and end-to-end tests.</li>
+<li>Ongoing work is focused on release hardening, CI expansion, and packaging consistency.</li>
+</ul>
+<h2 id="core-protocols"><a class="header" href="#core-protocols">Core Protocols</a></h2>
+<ul>
+<li>HTTP routes with typed inputs (<code>path</code>, <code>query</code>, <code>body</code>, <code>headers</code>).</li>
+<li>RPC (gRPC) service methods with typed input/output.</li>
+<li>WebSocket services with inbound/outbound message contracts.</li>
+<li>Events with broker support (Redis Streams) or in‑memory fallback.</li>
+</ul>
+<h2 id="types-and-validation"><a class="header" href="#types-and-validation">Types and Validation</a></h2>
+<ul>
+<li>Primitive, array, map, object, union, oneof, nullable.</li>
+<li>Enums (string or numeric).</li>
+<li>Validation constraints (min/max/regex/len/etc).</li>
+</ul>
+<h2 id="generators"><a class="header" href="#generators">Generators</a></h2>
+<ul>
+<li>Servers: Rust, TypeScript, Go.</li>
+<li>OpenAPI 3.0.3 output (YAML/JSON).</li>
+</ul>
+<h2 id="runtime-behavior"><a class="header" href="#runtime-behavior">Runtime Behavior</a></h2>
+<ul>
+<li>Automatic parsing and validation.</li>
+<li>Typed error handling and runtime error variants.</li>
+<li>Auth and middleware hooks with baseline generated behavior.</li>
+<li>Event consumers/producers for memory and Redis-backed modes.</li>
+<li>WebSocket rooms and triggers.</li>
+</ul>
+<h2 id="current-limits"><a class="header" href="#current-limits">Current limits</a></h2>
+<ul>
+<li>HTTP is the most mature runtime path.</li>
+<li>gRPC is supported, but has less runtime coverage than HTTP.</li>
+<li>WebSocket support is available, but still has less production-style validation than HTTP.</li>
+</ul>
+<h2 id="tooling"><a class="header" href="#tooling">Tooling</a></h2>
+<ul>
+<li><code>init</code>, <code>build</code>, <code>generate</code>, <code>run</code>, <code>stop</code>, <code>lint</code>, <code>fmt</code>, <code>env</code>, <code>doctor</code>, <code>update</code>.</li>
+</ul>
+<h2 id="example-flow"><a class="header" href="#example-flow">Example Flow</a></h2>
+<pre><code class="language-ns">type User:
+    id: string
+    name: string
+
+service API:
+    GET "/users/{id}":
+        input:
+            path:
+                id: string
+        responses:
+            200 User
+        call users.get(path.id)
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="dsl"><a class="header" href="#dsl">DSL</a></h1>
+<p>This chapter describes the DSL structure and how the compiler interprets it.</p>
+<h2 id="file-structure"><a class="header" href="#file-structure">File Structure</a></h2>
+<p>A file is parsed from top to bottom. The recommended order is:</p>
+<ul>
+<li>Top‑level directives (<code>output</code>, <code>use</code>, <code>auth</code>, <code>middleware</code>, <code>version</code>).</li>
+<li>Type/enum/event/rpc declarations (must appear before the first <code>service</code>).</li>
+<li>One or more <code>service</code> blocks.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-ns">output "./server"
+use db "./modules/db.rs"
+use runtime redis "0.23"
+use compile sqlx
+version 1
+
+event UserCreated:
+    payload User
+
+rpc Auth.Login:
+    input:
+        username: string
+        password: string
+    output Token
+    call auth.login(input.username, input.password)
+
+service API:
+    GET "/health":
+        auth: none
+        responses:
+            200 string
+        call core.health
+</code></pre>
+<h3 id="module-example-http--logic"><a class="header" href="#module-example-http--logic">Module Example (HTTP + Logic)</a></h3>
+<pre><code class="language-ns">use users "./modules/users.rs"
+
+service API:
+    GET "/users/{id}":
+        responses:
+            200 User
+        call users.get_user(path.id)
+</code></pre>
+<p>Rust module:</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use crate::types::{User, ErrorResponse};
+
+pub async fn get_user(id: String) -&gt; Result&lt;User, ErrorResponse&gt; {
+    Ok(User { id, name: "demo".into() })
+}
+<span class="boring">}</span></code></pre>
+<h2 id="toplevel-directives"><a class="header" href="#toplevel-directives">Top‑Level Directives</a></h2>
+<pre><code class="language-ns">output "./server"
+use db "./modules/db.rs"
+use serde_json "1.0"
+auth bearer
+middleware logging
+version 1
+</code></pre>
+<ul>
+<li><code>output</code> — base generation directory.</li>
+<li><code>use</code> — module path or dependency available to services.</li>
+<li><code>auth</code>, <code>middleware</code> — defaults for all services (can be overridden per route or socket; use <code>auth: none</code> to disable).</li>
+<li><code>version</code> — default version for <code>type/enum/event/rpc/socket</code> names and references.</li>
+</ul>
+<h2 id="service"><a class="header" href="#service">Service</a></h2>
+<pre><code class="language-ns">service API:
+    GET "/users":
+        responses:
+            200 User
+        call db.list
+</code></pre>
+<p>A file can contain multiple services. Each service is generated into its own folder.</p>
+<h3 id="output-layout-multiple-services"><a class="header" href="#output-layout-multiple-services">Output Layout (Multiple Services)</a></h3>
+<p>When the file contains multiple services, each service gets a separate output directory:</p>
+<ul>
+<li>If <code>output</code> is not set, output goes into <code>.nimesvc/&lt;ServiceName&gt;</code>.</li>
+<li>If <code>output "./server"</code> is set, output goes into <code>./server/&lt;ServiceName&gt;</code>.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-ns">output "./server"
+
+service Auth:
+    GET "/health":
+        responses:
+            200 string
+        call core.health
+
+service Data:
+    GET "/records":
+        responses:
+            200 Record
+        call data.list
+</code></pre>
+<p>Generated layout:</p>
+<pre><code>./server/Auth/
+./server/Data/
+</code></pre>
+<h3 id="service-language"><a class="header" href="#service-language">Service Language</a></h3>
+<pre><code class="language-ns">service Auth go:
+    GET "/health":
+        responses:
+            200 string
+        call core.health
+</code></pre>
+<p>Supported: <code>rs/rust</code>, <code>ts/typescript</code>, <code>go/golang</code>.</p>
+<h3 id="service-config"><a class="header" href="#service-config">Service Config</a></h3>
+<pre><code class="language-ns">service API:
+    config:
+        address: "0.0.0.0"
+        port: 8080
+        base_url: "http://users:8081"
+</code></pre>
+<p>Short form:</p>
+<pre><code class="language-ns">service API:
+    address "0.0.0.0"
+    port 8080
+</code></pre>
+<ul>
+<li><code>address</code> / <code>port</code> — bind address for the HTTP server.</li>
+<li><code>base_url</code> — optional override for cross‑service <code>call ServiceName.module.func</code>.</li>
+</ul>
+<h3 id="env"><a class="header" href="#env">env</a></h3>
+<pre><code class="language-ns">service API:
+    env DATABASE_URL
+    env REDIS_URL
+    env APP_MODE="dev"
+</code></pre>
+<p>The generator adds runtime checks for required env vars. If a default is provided (<code>env NAME="value"</code>),
+the server will set the env var on startup if it’s missing.</p>
+<h3 id="headers-servicelevel"><a class="header" href="#headers-servicelevel">headers (service‑level)</a></h3>
+<pre><code class="language-ns">service API:
+    headers:
+        X_Request_Id: string
+</code></pre>
+<p>Service headers are inherited by all routes in the service.</p>
+<p>Header naming rules:</p>
+<ul>
+<li>Header names must be identifiers (letters, numbers, <code>_</code>).</li>
+<li>Use <code>_</code> instead of <code>-</code> in the DSL.</li>
+<li>At runtime, underscores are converted to hyphens and names are lowercased.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-ns">headers:
+    X_Request_Id: string
+</code></pre>
+<p>At runtime this maps to <code>x-request-id</code>.</p>
+<h3 id="rate_limit-servicelevel"><a class="header" href="#rate_limit-servicelevel">rate_limit (service‑level)</a></h3>
+<pre><code class="language-ns">service API:
+    rate_limit 100/min
+</code></pre>
+<p>Per‑route limits override service‑level limits.</p>
+<h2 id="routes-http"><a class="header" href="#routes-http">Routes (HTTP)</a></h2>
+<pre><code class="language-ns">GET "/users/{id}":
+    input:
+        path:
+            id: int
+        query:
+            limit?: int
+    responses:
+        200 User
+        404 Error
+    call db.get_user(path.id, query.limit)
+</code></pre>
+<h3 id="input"><a class="header" href="#input">input</a></h3>
+<pre><code class="language-ns">input:
+    path:
+        id: int
+    query:
+        q?: string
+    body:
+        user: User
+</code></pre>
+<p><code>path</code>, <code>query</code>, <code>body</code>, and <code>headers</code> are parsed and validated into typed structs.</p>
+<h3 id="headers-routelevel"><a class="header" href="#headers-routelevel">headers (route‑level)</a></h3>
+<pre><code class="language-ns">GET "/users":
+    headers:
+        X_Custom: string
+    responses:
+        200 User
+    call db.list
+</code></pre>
+<p>Header names must be identifiers (use <code>_</code> instead of <code>-</code>).</p>
+<h3 id="responses"><a class="header" href="#responses">responses</a></h3>
+<pre><code class="language-ns">responses:
+    200 User
+    404 Error
+    401 AuthError
+</code></pre>
+<p>Rules:</p>
+<ul>
+<li>Any <code>2xx</code> is considered a success.</li>
+<li>Non‑<code>2xx</code> are treated as typed errors by generated server helpers.</li>
+<li>Use <code>204</code> for empty responses.</li>
+</ul>
+<h3 id="healthcheck"><a class="header" href="#healthcheck">healthcheck</a></h3>
+<pre><code class="language-ns">GET "/health":
+    healthcheck
+</code></pre>
+<p>Marks a route as a health check. Generators may apply special behavior for these endpoints.</p>
+<h2 id="call"><a class="header" href="#call">call</a></h2>
+<pre><code class="language-ns">call module.func
+call module.func(body)
+call module.func(path.id, query.q, body.user)
+call module.func(user=body.user, id=path.id)
+call ServiceName.module.func
+async module.func(path.id)
+</code></pre>
+<p><code>call</code> is synchronous by default. Use <code>async</code> to await an async module function.</p>
+<p>Notes:</p>
+<ul>
+<li>Arguments come from <code>path</code>, <code>query</code>, <code>body</code>, and <code>headers</code>.</li>
+<li>Cross‑service calls use the target service <code>base_url</code> if set, otherwise they default to the service
+<code>address</code> + <code>port</code> (or <code>127.0.0.1:3000</code> if neither is set).</li>
+<li>RPC calls use <code>input.*</code> and <code>headers.*</code> (see RPC chapter).</li>
+</ul>
+<h2 id="types-enums-versions"><a class="header" href="#types-enums-versions">Types, Enums, Versions</a></h2>
+<pre><code class="language-ns">type User:
+    id: int
+    name?: string
+    status: Status
+    meta: { age: int, tags?: array&lt;string&gt; }
+
+enum Status:
+    Active
+    Disabled
+
+// Versioned names
+// User@2, Status@2, event UserCreated@2, rpc Auth.Login@2
+</code></pre>
+<p>Versioned references use <code>Name@&lt;number&gt;</code> and can be mixed with default <code>version</code>.</p>
+<h2 id="rpc-events-websocket"><a class="header" href="#rpc-events-websocket">RPC, Events, WebSocket</a></h2>
+<p>These are covered in dedicated chapters:</p>
+<ul>
+<li><a href="#rpc-grpc">RPC (gRPC)</a></li>
+<li><a href="#events">Events</a></li>
+<li><a href="#websocket-2">WebSocket</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="modules-and-calls"><a class="header" href="#modules-and-calls">Modules and Calls</a></h1>
+<p>Modules connect the DSL to real code in Rust/Go/TypeScript. You declare modules with <code>use</code> and
+call functions with <code>call</code>. This is the main bridge between the DSL and your business logic.</p>
+<h2 id="use"><a class="header" href="#use"><code>use</code></a></h2>
+<pre><code class="language-ns">use db "./modules/db.rs"
+use helpers "./modules/helpers.ts" as h
+use serde_json "1.0"
+</code></pre>
+<p>Rules:</p>
+<ul>
+<li>Path modules are copied into the generated service folder.</li>
+<li>Dependency modules are added to runtime dependencies.</li>
+<li><code>as &lt;alias&gt;</code> changes the module name used in <code>call</code>.</li>
+<li>Paths are resolved relative to the <code>.ns</code> file.</li>
+</ul>
+<h2 id="dependency-vs-path-modules"><a class="header" href="#dependency-vs-path-modules">Dependency vs Path Modules</a></h2>
+<p>Path modules:</p>
+<pre><code class="language-ns">use db "./modules/db.rs"
+use auth "./modules/auth/"
+</code></pre>
+<ul>
+<li>Copies a file or directory into <code>generated_service/modules/</code>.</li>
+<li>Best for your own code and helper utilities.</li>
+</ul>
+<p>Dependency modules:</p>
+<pre><code class="language-ns">use serde_json "1.0"
+use axum "0.7"
+</code></pre>
+<ul>
+<li>Adds a runtime dependency (Cargo/Go module/npm package).</li>
+<li>Best for third‑party libraries.</li>
+</ul>
+<h2 id="scope"><a class="header" href="#scope">Scope</a></h2>
+<pre><code class="language-ns">use my_codegen "./codegen.rs" scope compile
+use runtime "./runtime.rs" scope runtime
+</code></pre>
+<ul>
+<li><code>compile</code> → available only during generation.</li>
+<li><code>runtime</code> → available only in the generated server.</li>
+<li>default is <code>runtime</code>.</li>
+</ul>
+<h2 id="call-1"><a class="header" href="#call-1"><code>call</code></a></h2>
+<pre><code class="language-ns">call db.create_user(body.user)
+call db.get_user(path.id)
+call analytics.track(event=body.event)
+</code></pre>
+<p>Arguments can be positional or named. Values come from:</p>
+<ul>
+<li><code>path.&lt;name&gt;</code></li>
+<li><code>query.&lt;name&gt;</code></li>
+<li><code>body.&lt;name&gt;</code></li>
+<li><code>headers.&lt;name&gt;</code></li>
+<li><code>input.&lt;name&gt;</code> in RPC handlers</li>
+</ul>
+<h2 id="http-example"><a class="header" href="#http-example">HTTP Example</a></h2>
+<pre><code class="language-ns">use db "./modules/db.rs"
+
+service API:
+    POST "/users":
+        input:
+            body:
+                user: User
+        responses:
+            201 User
+        call db.create_user(body.user)
+</code></pre>
+<h2 id="rpc-example"><a class="header" href="#rpc-example">RPC Example</a></h2>
+<pre><code class="language-ns">use auth "./modules/auth.rs"
+
+rpc Auth.Login:
+    input:
+        username: string
+        password: string
+    output Token
+    call auth.login(input.username, input.password)
+</code></pre>
+<h2 id="websocket-example"><a class="header" href="#websocket-example">WebSocket Example</a></h2>
+<pre><code class="language-ns">use chat "./modules/chat.rs"
+
+service Chat:
+    socket Chat "/ws":
+        inbound:
+            Join -&gt; chat.on_join
+            MessageIn -&gt; chat.on_message
+        outbound:
+            MessageOut -&gt; chat.send_message
+</code></pre>
+<h2 id="events-example"><a class="header" href="#events-example">Events Example</a></h2>
+<pre><code class="language-ns">use audit "./modules/audit.rs"
+
+event UserCreated:
+    payload User
+
+service API:
+    emit UserCreated
+    subscribe UserCreated
+
+    GET "/users/{id}":
+        responses:
+            200 User
+        call audit.read_user(path.id)
+</code></pre>
+<h2 id="module-files"><a class="header" href="#module-files">Module Files</a></h2>
+<p>Path-based modules are copied into the generated service under:</p>
+<pre><code>&lt;service&gt;/modules/
+</code></pre>
+<p>The generator expects the referenced functions to exist in those files.
+If a module path is missing or a referenced function cannot be resolved, generation fails with an error.</p>
+<h2 id="writing-modules-rustgotypescript"><a class="header" href="#writing-modules-rustgotypescript">Writing Modules (Rust/Go/TypeScript)</a></h2>
+<p>Modules are just normal source files. The generator calls your functions from the
+generated handlers. You can use any library you want — just add it via <code>use &lt;crate&gt; "&lt;version&gt;"</code>
+for Rust, <code>use &lt;module&gt; "&lt;version&gt;"</code> for TS, or <code>use &lt;module&gt; "&lt;version&gt;"</code> for Go.</p>
+<h3 id="rust-modules"><a class="header" href="#rust-modules">Rust modules</a></h3>
+<p>File: <code>modules/db.rs</code></p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use crate::types::{User, ErrorResponse};
+
+pub async fn get_user(id: String) -&gt; Result&lt;User, ErrorResponse&gt; {
+    // ...
+}
+<span class="boring">}</span></code></pre>
+<p>Notes:</p>
+<ul>
+<li>Use <code>pub</code> functions. Async is allowed and recommended.</li>
+<li>You can import generated types via <code>crate::types::*</code>.</li>
+<li>Read env with <code>std::env::var("NAME")</code>.</li>
+</ul>
+<h3 id="go-modules"><a class="header" href="#go-modules">Go modules</a></h3>
+<p>File: <code>modules/db.go</code></p>
+<pre><code class="language-go">package modules
+
+import "os"
+
+func GetUser(id string) (User, error) {
+    _ = os.Getenv("DATABASE_URL")
+    // ...
+    return User{}, nil
+}
+</code></pre>
+<p>Notes:</p>
+<ul>
+<li>Use exported functions (<code>FuncName</code>).</li>
+<li>Generated types are available in the same package (usually <code>modules</code>).</li>
+<li>Read env with <code>os.Getenv("NAME")</code>.</li>
+</ul>
+<h3 id="typescript-modules"><a class="header" href="#typescript-modules">TypeScript modules</a></h3>
+<p>File: <code>modules/db.ts</code></p>
+<pre><code class="language-ts">import type { User } from "../types";
+
+export async function getUser(id: string): Promise&lt;User&gt; {
+  const url = process.env.DATABASE_URL;
+  // ...
+  return { id, name: "demo" };
+}
+</code></pre>
+<p>Notes:</p>
+<ul>
+<li>Use named exports.</li>
+<li>Types are in <code>types.ts</code>.</li>
+<li>Read env with <code>process.env.NAME</code>.</li>
+</ul>
+<h2 id="environment-variables"><a class="header" href="#environment-variables">Environment Variables</a></h2>
+<p>Declare required env vars in DSL:</p>
+<pre><code class="language-ns">service API:
+    env DATABASE_URL
+    env JWT_SECRET="dev_secret"
+</code></pre>
+<p>At runtime:</p>
+<ul>
+<li>Rust: <code>std::env::var("DATABASE_URL")</code></li>
+<li>Go: <code>os.Getenv("DATABASE_URL")</code></li>
+<li>TS: <code>process.env.DATABASE_URL</code></li>
+</ul>
+<p>If a default is provided, the generator sets it at startup.</p>
+<h2 id="header-mapping"><a class="header" href="#header-mapping">Header Mapping</a></h2>
+<p>Header names declared in DSL are normalized at runtime:</p>
+<ul>
+<li>DSL uses <code>_</code> instead of <code>-</code> (e.g. <code>X_Request_Id</code>).</li>
+<li>At runtime, headers are lowercased and <code>-</code> is used.</li>
+<li>Access in <code>call</code> uses the DSL name: <code>headers.x_request_id</code>.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-ns">headers:
+    X_Request_Id: string
+</code></pre>
+<p>In <code>call</code>, use:</p>
+<pre><code class="language-ns">call audit.track(headers.x_request_id)
+</code></pre>
+<h2 id="crossservice-calls"><a class="header" href="#crossservice-calls">Cross‑Service Calls</a></h2>
+<p>Cross‑service calls are compiled into HTTP requests using the target service <code>base_url</code> if set,
+otherwise the service <code>address</code> + <code>port</code> is used (or <code>127.0.0.1:3000</code> by default).</p>
+<h3 id="syntax"><a class="header" href="#syntax">Syntax</a></h3>
+<pre><code class="language-ns">call Users.db.get_user(path.id)
+</code></pre>
+<h3 id="requirements"><a class="header" href="#requirements">Requirements</a></h3>
+<ul>
+<li>The <code>ServiceName</code> in <code>call ServiceName.module.func</code> must exist in the same DSL file.</li>
+<li>The target service may define <code>base_url</code> to override <code>address</code> + <code>port</code>.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-ns">service Users:
+    config:
+        base_url: "http://users:8081"
+
+    GET "/users/{id}":
+        responses:
+            200 User
+        call db.get_user(path.id)
+
+service API:
+    GET "/profile/{id}":
+        responses:
+            200 User
+        call Users.db.get_user(path.id)
+</code></pre>
+<h3 id="behavior"><a class="header" href="#behavior">Behavior</a></h3>
+<ul>
+<li>The compiler generates an HTTP client call to <code>base_url + route_path</code> (or the derived base).</li>
+<li>Query/path/body/headers are mapped using the same DSL input definitions.</li>
+<li>Response handling follows the target route <code>responses</code> contract.</li>
+<li>If the target route cannot be resolved, generation fails.</li>
+</ul>
+<h3 id="errors"><a class="header" href="#errors">Errors</a></h3>
+<ul>
+<li>Calling a non‑existing service → compile error.</li>
+<li>Runtime HTTP failures are converted into typed client errors.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="types-and-validation-1"><a class="header" href="#types-and-validation-1">Types and Validation</a></h1>
+<p>This chapter explains how NimeScript types are declared, composed, and validated at runtime.</p>
+<h2 id="primitive-types"><a class="header" href="#primitive-types">Primitive Types</a></h2>
+<ul>
+<li><code>string</code></li>
+<li><code>int</code></li>
+<li><code>float</code></li>
+<li><code>bool</code></li>
+</ul>
+<h2 id="named-types"><a class="header" href="#named-types">Named Types</a></h2>
+<pre><code class="language-ns">type User:
+    id: int
+    name: string
+</code></pre>
+<p>Named types are referenced by name in routes, rpc, and events.</p>
+<h2 id="optional-fields"><a class="header" href="#optional-fields">Optional Fields</a></h2>
+<pre><code class="language-ns">type User:
+    name?: string
+</code></pre>
+<p>Optional fields are omitted from validation when absent.</p>
+<h2 id="arrays"><a class="header" href="#arrays">Arrays</a></h2>
+<pre><code class="language-ns">type Payload:
+    ids: array&lt;int&gt;
+</code></pre>
+<p>Use <code>array</code> or <code>array&lt;T&gt;</code>. <code>array</code> defaults to <code>array&lt;any&gt;</code>.</p>
+<h2 id="map"><a class="header" href="#map">Map</a></h2>
+<pre><code class="language-ns">type Metrics:
+    tags: map&lt;string&gt;
+</code></pre>
+<p><code>map&lt;T&gt;</code> is a dictionary with <code>string</code> keys and values of type <code>T</code>.</p>
+<h2 id="object-literals"><a class="header" href="#object-literals">Object Literals</a></h2>
+<pre><code class="language-ns">type User:
+    meta: { age: int, tags?: array&lt;string&gt; }
+</code></pre>
+<p>Inline object literals are useful for small nested schemas.</p>
+<h2 id="union--oneof--nullable"><a class="header" href="#union--oneof--nullable">Union / OneOf / Nullable</a></h2>
+<pre><code class="language-ns">type UserId:
+    value: union&lt;string, int&gt;
+
+type Payment:
+    method: oneof&lt;Card, Cash&gt;
+
+type Profile:
+    bio: nullable&lt;string&gt;
+</code></pre>
+<ul>
+<li><code>union&lt;A,B&gt;</code> allows any listed types.</li>
+<li><code>oneof&lt;A,B&gt;</code> enforces exactly one variant in validation.</li>
+<li><code>nullable&lt;T&gt;</code> allows <code>null</code> in addition to <code>T</code>.</li>
+</ul>
+<h2 id="enum"><a class="header" href="#enum">Enum</a></h2>
+<pre><code class="language-ns">enum Status:
+    Active
+    Disabled
+
+enum Code:
+    Ok = 1
+    Fail = 2
+</code></pre>
+<p>Enums can be string‑like or numeric.</p>
+<h2 id="versioned-names"><a class="header" href="#versioned-names">Versioned Names</a></h2>
+<pre><code class="language-ns">type User@2:
+    id: int
+    email: string
+</code></pre>
+<p>Use <code>Name@&lt;version&gt;</code> for explicit versioned contracts. When <code>version</code> is set at the top level,
+unversioned names automatically inherit it.</p>
+<h2 id="validation-rules"><a class="header" href="#validation-rules">Validation Rules</a></h2>
+<pre><code class="language-ns">type User:
+    name: string(min_len=2, max_len=50, regex="^[a-z]+$")
+    email: string(email)
+    age: int(min=0, max=150)
+    ids: array&lt;int&gt;(min_items=1, max_items=10)
+    tag: string(len=3)
+</code></pre>
+<p>Supported rules:</p>
+<ul>
+<li><code>min</code>, <code>max</code></li>
+<li><code>min_len</code>, <code>max_len</code>, <code>len</code></li>
+<li><code>min_items</code>, <code>max_items</code></li>
+<li><code>regex</code></li>
+<li><code>format="email" | "uuid"</code></li>
+</ul>
+<p>Extra <code>key=value</code> pairs are preserved as <code>x-constraints</code> in OpenAPI.</p>
+<h2 id="runtime-behavior-1"><a class="header" href="#runtime-behavior-1">Runtime Behavior</a></h2>
+<ul>
+<li>Route <code>path/query/body/headers</code> values are parsed into typed structs.</li>
+<li>Validation errors return <code>400</code> with a structured JSON payload (see Errors).</li>
+<li>RPC <code>input/headers</code> are validated the same way.</li>
+<li>Event payloads are validated on publish and consume.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="auth-and-middleware"><a class="header" href="#auth-and-middleware">Auth and Middleware</a></h1>
+<p>Auth and middleware can be declared globally, per service, per route, or per socket.</p>
+<h2 id="auth"><a class="header" href="#auth">Auth</a></h2>
+<pre><code class="language-ns">auth bearer
+</code></pre>
+<p>Supported:</p>
+<ul>
+<li><code>bearer</code> (Authorization header)</li>
+<li><code>api_key</code> (x-api-key header)</li>
+<li><code>none</code> (explicitly disable auth for this route)</li>
+</ul>
+<h3 id="servicelevel"><a class="header" href="#servicelevel">Service‑level</a></h3>
+<pre><code class="language-ns">service API:
+    auth bearer
+
+    GET "/me":
+        responses:
+            200 User
+        call users.me
+</code></pre>
+<h3 id="routelevel-override"><a class="header" href="#routelevel-override">Route‑level override</a></h3>
+<p>Routes use <code>auth:</code> (with colon):</p>
+<pre><code class="language-ns">service API:
+    auth bearer
+
+    GET "/admin":
+        auth: bearer
+        responses:
+            200 string
+        call admin.dashboard
+
+    GET "/health":
+        auth: none
+        responses:
+            200 string
+        call core.health
+</code></pre>
+<h3 id="websocket"><a class="header" href="#websocket">WebSocket</a></h3>
+<pre><code class="language-ns">service Chat:
+    socket Chat "/ws":
+        auth bearer
+        inbound:
+            Join -&gt; chat.on_join
+</code></pre>
+<h2 id="middleware"><a class="header" href="#middleware">Middleware</a></h2>
+<pre><code class="language-ns">middleware logging
+</code></pre>
+<h3 id="servicelevel-1"><a class="header" href="#servicelevel-1">Service‑level</a></h3>
+<pre><code class="language-ns">service API:
+    middleware logging
+    middleware metrics
+</code></pre>
+<h3 id="routelevel"><a class="header" href="#routelevel">Route‑level</a></h3>
+<p>Routes use <code>middleware:</code> (with colon):</p>
+<pre><code class="language-ns">GET "/users":
+    middleware: audit
+    responses:
+        200 User
+    call users.list
+</code></pre>
+<h3 id="websocket-1"><a class="header" href="#websocket-1">WebSocket</a></h3>
+<pre><code class="language-ns">socket Chat "/ws":
+    middleware logging
+</code></pre>
+<h2 id="runtime-behavior-2"><a class="header" href="#runtime-behavior-2">Runtime Behavior</a></h2>
+<ul>
+<li><code>auth bearer</code> checks that the incoming request has an <code>Authorization</code> header.</li>
+<li><code>auth api_key</code> checks that the incoming request has an <code>x-api-key</code> header.</li>
+<li>Auth is a presence check only; actual token validation should happen in your module logic.</li>
+<li>Middleware runs before handler calls.</li>
+<li>If middleware throws/returns an error, the request is rejected.</li>
+<li>For WebSocket, middleware runs on each inbound message.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="errors-and-responses"><a class="header" href="#errors-and-responses">Errors and Responses</a></h1>
+<p>This chapter explains how errors are represented in generated services and runtime responses.</p>
+<h2 id="http-error-format-server"><a class="header" href="#http-error-format-server">HTTP Error Format (Server)</a></h2>
+<p>Runtime validation and handler failures are returned as JSON:</p>
+<pre><code class="language-json">{ "error": "message" }
+</code></pre>
+<h3 id="validation-examples"><a class="header" href="#validation-examples">Validation examples</a></h3>
+<ul>
+<li>Missing required field:</li>
+</ul>
+<pre><code class="language-json">{ "error": "Missing body.user" }
+</code></pre>
+<ul>
+<li>Invalid value:</li>
+</ul>
+<pre><code class="language-json">{ "error": "Invalid user.email" }
+</code></pre>
+<ul>
+<li>Invalid path/query:</li>
+</ul>
+<pre><code class="language-json">{ "error": "Invalid path.id" }
+</code></pre>
+<pre><code class="language-json">{ "error": "Invalid query.limit" }
+</code></pre>
+<h2 id="responses-in-dsl"><a class="header" href="#responses-in-dsl">Responses in DSL</a></h2>
+<pre><code class="language-ns">GET "/users/{id}":
+    responses:
+        200 User
+        404 Error
+        401 AuthError
+    call users.get(path.id)
+</code></pre>
+<p>Rules:</p>
+<ul>
+<li>Any <code>2xx</code> response is a success.</li>
+<li>Any non‑<code>2xx</code> response is returned as an HTTP error payload.</li>
+<li>Use <code>204</code> for empty responses.</li>
+</ul>
+<h2 id="auth-errors"><a class="header" href="#auth-errors">Auth Errors</a></h2>
+<ul>
+<li>Missing <code>Authorization</code> with <code>auth bearer</code> → <code>401</code>.</li>
+<li>Missing <code>x-api-key</code> with <code>auth api_key</code> → <code>401</code>.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
+<p>This chapter shows small focused snippets. For larger real projects, see the <code>examples/</code> directory.</p>
+<h2 id="1-minimal-http-service"><a class="header" href="#1-minimal-http-service">1. Minimal HTTP service</a></h2>
+<pre><code class="language-ns">service API:
+    config:
+        address: "127.0.0.1"
+        port: 8080
+
+    GET "/health":
+        response 200
+        healthcheck
+</code></pre>
+<h2 id="2-typed-route-inputs-and-responses"><a class="header" href="#2-typed-route-inputs-and-responses">2. Typed route inputs and responses</a></h2>
+<pre><code class="language-ns">type User:
+    id: string
+    name: string
+
+type Error:
+    message: string
+
+service API:
+    GET "/users/{id}":
+        input:
+            path:
+                id: string
+        responses:
+            200 User
+            404 Error
+        call users.get(path.id)
+</code></pre>
+<h2 id="3-auth-and-middleware"><a class="header" href="#3-auth-and-middleware">3. Auth and middleware</a></h2>
+<pre><code class="language-ns">service API:
+    auth bearer
+    middleware logging
+
+    GET "/profile":
+        responses:
+            200 User
+        call users.profile
+</code></pre>
+<h2 id="4-event-producer-and-consumer"><a class="header" href="#4-event-producer-and-consumer">4. Event producer and consumer</a></h2>
+<pre><code class="language-ns">event UserCreated:
+    payload User
+
+type User:
+    id: string
+    email: string
+
+service API:
+    events_config:
+        broker: redis
+        url: "redis://127.0.0.1:6379"
+        group: "api"
+        consumer: "api-1"
+
+    emit UserCreated
+    subscribe UserCreated
+</code></pre>
+<h2 id="5-rpc-grpc"><a class="header" href="#5-rpc-grpc">5. RPC (gRPC)</a></h2>
+<pre><code class="language-ns">rpc Auth.Login:
+    input:
+        username: string
+        password: string
+    output Token
+    call auth.login(input.username, input.password)
+</code></pre>
+<h2 id="6-websocket-rooms-and-triggers"><a class="header" href="#6-websocket-rooms-and-triggers">6. WebSocket rooms and triggers</a></h2>
+<pre><code class="language-ns">type ChatMessage:
+    user_id: string
+    text: string
+
+service Chat:
+    socket Chat "/ws":
+        room "chat"
+
+        trigger SendMessage:
+            room "chat"
+            payload ChatMessage
+
+        inbound:
+            Join -&gt; chat.on_join
+            SendMessage -&gt; chat.send_message
+
+        outbound:
+            MessageOut -&gt; chat.send_message
+</code></pre>
+<h2 id="repository-examples"><a class="header" href="#repository-examples">Repository examples</a></h2>
+<ul>
+<li><code>examples/minimal.ns</code> — minimal HTTP service</li>
+<li><code>examples/auth_data.ns</code> — auth and data services</li>
+<li><code>examples/events_redis.ns</code> — Redis-backed events</li>
+<li><code>examples/chat_socket.ns</code> — WebSocket flow</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="rpc-grpc"><a class="header" href="#rpc-grpc">RPC (gRPC)</a></h1>
+<p>RPC services are declared in the DSL and generated as gRPC servers. Each RPC method is bound to a service by name.</p>
+<h2 id="dsl-1"><a class="header" href="#dsl-1">DSL</a></h2>
+<pre><code class="language-ns">rpc Auth.Login:
+    input:
+        username: string
+        password: string
+    headers:
+        x_request_id?: string
+    output Token
+    auth bearer
+    middleware logging
+    rate_limit 100/min
+    call auth.login(input.username, input.password)
+</code></pre>
+<p>Rules:</p>
+<ul>
+<li><code>rpc &lt;Service&gt;.&lt;Method&gt;:</code> must appear before <code>service</code> blocks.</li>
+<li><code>&lt;Service&gt;</code> must match an existing service name.</li>
+<li><code>output</code> is required.</li>
+<li><code>call</code> is required and can only reference <code>input.*</code> or <code>headers.*</code>.</li>
+</ul>
+<h2 id="modules-in-rpc"><a class="header" href="#modules-in-rpc">Modules in RPC</a></h2>
+<pre><code class="language-ns">use auth "./modules/auth.rs"
+
+rpc Auth.Login:
+    input:
+        username: string
+        password: string
+    output Token
+    call auth.login(input.username, input.password)
+</code></pre>
+<p>The referenced module path is copied into the generated service under <code>modules/</code>.
+If the module function does not exist or the path is wrong, generation fails and you need to add the implementation yourself.</p>
+<h2 id="module-examples-logic"><a class="header" href="#module-examples-logic">Module Examples (Logic)</a></h2>
+<h3 id="rust"><a class="header" href="#rust">Rust</a></h3>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use crate::types::{Token, AuthError};
+use jsonwebtoken::{encode, EncodingKey, Header};
+
+pub async fn login(username: String, password: String) -&gt; Result&lt;Token, AuthError&gt; {
+    if username.is_empty() || password.is_empty() {
+        return Err(AuthError { message: "invalid credentials".into() });
+    }
+    let token = encode(
+        &amp;Header::default(),
+        &amp;serde_json::json!({ "sub": username }),
+        &amp;EncodingKey::from_secret(b"dev"),
+    ).map_err(|_| AuthError { message: "token failed".into() })?;
+    Ok(Token { access: token })
+}
+<span class="boring">}</span></code></pre>
+<h3 id="go"><a class="header" href="#go">Go</a></h3>
+<pre><code class="language-go">package modules
+
+import "errors"
+
+func Login(username, password string) (Token, error) {
+	if username == "" || password == "" {
+		return Token{}, errors.New("invalid credentials")
+	}
+	return Token{Access: "dev-token"}, nil
+}
+</code></pre>
+<h3 id="typescript"><a class="header" href="#typescript">TypeScript</a></h3>
+<pre><code class="language-ts">import type { Token, AuthError } from "../types";
+
+export async function login(username: string, password: string): Promise&lt;Token&gt; {
+  if (!username || !password) {
+    throw { message: "invalid credentials" } as AuthError;
+  }
+  return { access: "dev-token" };
+}
+</code></pre>
+<h2 id="service-config-grpc"><a class="header" href="#service-config-grpc">Service Config (gRPC)</a></h2>
+<pre><code class="language-ns">service Auth:
+    grpc_config:
+        address: "127.0.0.1"
+        port: 50051
+        max_message_size: 4mb
+        tls "./cert.pem" "./key.pem"
+</code></pre>
+<p><code>grpc_config</code> is per service and controls the gRPC listener. If omitted, generators fall back to their defaults
+(see generated <code>main.*</code>).</p>
+<h2 id="how-rpc-calls-work"><a class="header" href="#how-rpc-calls-work">How RPC Calls Work</a></h2>
+<ul>
+<li>RPC inputs are validated against the <code>input</code> block.</li>
+<li>The generated handler calls <code>call module.func(...)</code> and returns the result as the gRPC response.</li>
+<li>Headers defined in <code>headers:</code> are available as typed inputs in <code>call</code>.</li>
+</ul>
+<h2 id="generation"><a class="header" href="#generation">Generation</a></h2>
+<p>Generate only gRPC output:</p>
+<pre><code class="language-bash">nimesvc generate api.ns grpc --lang rust
+nimesvc generate api.ns grpc --lang go
+nimesvc generate api.ns grpc --lang ts
+</code></pre>
+<p>Generate the whole project and include gRPC automatically for RPC services:</p>
+<pre><code class="language-bash">nimesvc generate api.ns --lang rust
+</code></pre>
+<p>Run only gRPC output:</p>
+<pre><code class="language-bash">nimesvc run api.ns grpc --lang rust
+</code></pre>
+<p>Run the whole project and let <code>nimesvc</code> start gRPC automatically where <code>rpc</code> is declared:</p>
+<pre><code class="language-bash">nimesvc run api.ns
+</code></pre>
+<p>Notes:</p>
+<ul>
+<li>RPCs are generated into the service chosen by <code>service</code> name and language.</li>
+<li>Auth/middleware/rate_limit can be applied per RPC method.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="events"><a class="header" href="#events">Events</a></h1>
+<p>Events provide an async contract for communication between services. The DSL declares event payload types,
+while services choose which events they emit or subscribe to.</p>
+<h2 id="dsl-2"><a class="header" href="#dsl-2">DSL</a></h2>
+<pre><code class="language-ns">event UserCreated:
+    payload User
+
+event AuditLogged:
+    payload Audit
+
+service API:
+    emit UserCreated
+    subscribe AuditLogged
+</code></pre>
+<p>Rules:</p>
+<ul>
+<li><code>event</code> declarations must appear before <code>service</code> blocks.</li>
+<li><code>payload</code> must reference a valid type.</li>
+</ul>
+<h2 id="modules-with-events"><a class="header" href="#modules-with-events">Modules with Events</a></h2>
+<pre><code class="language-ns">use audit "./modules/audit.rs"
+
+event UserCreated:
+    payload User
+
+service API:
+    emit UserCreated
+    subscribe UserCreated
+
+    POST "/users":
+        input:
+            body:
+                user: User
+        responses:
+            201 User
+        call audit.create_user(body.user)
+</code></pre>
+<p>Events and handlers can live in the same module or in separate ones.</p>
+<h2 id="module-examples-logic-1"><a class="header" href="#module-examples-logic-1">Module Examples (Logic)</a></h2>
+<h3 id="rust-1"><a class="header" href="#rust-1">Rust</a></h3>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use crate::types::{Audit};
+
+pub async fn create_user(user: User) -&gt; Result&lt;User, ErrorResponse&gt; {
+    // business logic + emit event via generated helper
+    emit_user_created(user.clone()).await;
+    Ok(user)
+}
+
+pub async fn on_user_created(event: Audit) {
+    println!("audit: {}", event.message);
+}
+<span class="boring">}</span></code></pre>
+<h3 id="go-1"><a class="header" href="#go-1">Go</a></h3>
+<pre><code class="language-go">package modules
+
+func CreateUser(user User) (User, error) {
+	EmitUserCreated(user)
+	return user, nil
+}
+
+func OnUserCreated(event Audit) {
+	// process audit
+}
+</code></pre>
+<h3 id="typescript-1"><a class="header" href="#typescript-1">TypeScript</a></h3>
+<pre><code class="language-ts">import type { User, Audit } from "../types";
+
+export async function createUser(user: User): Promise&lt;User&gt; {
+  await emitUserCreated(user);
+  return user;
+}
+
+export async function onUserCreated(event: Audit) {
+  console.log("audit", event.message);
+}
+</code></pre>
+<h2 id="broker-redis-streams"><a class="header" href="#broker-redis-streams">Broker (Redis Streams)</a></h2>
+<pre><code class="language-ns">service API:
+    events_config:
+        broker: redis
+        url: "redis://127.0.0.1:6379"
+        group: "api"
+        consumer: "api-1"
+        stream_prefix: "api"
+</code></pre>
+<h2 id="inmemory-vs-redis"><a class="header" href="#inmemory-vs-redis">In‑Memory vs Redis</a></h2>
+<ul>
+<li>If <code>events_config</code> is <strong>missing</strong>, generators use an in‑memory event bus.</li>
+<li>If <code>events_config.broker = redis</code>, generators use Redis Streams.</li>
+<li>In‑memory mode is great for local development but does not persist events.</li>
+</ul>
+<h2 id="generated-api"><a class="header" href="#generated-api">Generated API</a></h2>
+<p>For each event <code>UserCreated</code>, generators provide:</p>
+<ul>
+<li><code>emitUserCreated(payload)</code></li>
+<li><code>onUserCreated(handler)</code></li>
+</ul>
+<p>If the service subscribes to events and the broker is Redis, a consumer loop is generated:</p>
+<ul>
+<li><code>startEventConsumers()</code></li>
+</ul>
+<h2 id="runtime-behavior-3"><a class="header" href="#runtime-behavior-3">Runtime Behavior</a></h2>
+<ul>
+<li><code>emit</code> publishes the event payload.</li>
+<li><code>subscribe</code> registers handlers in memory and starts consumers when configured.</li>
+<li>Redis Streams: consumer group is created on first run.</li>
+<li>Stream name is <code>{stream_prefix}.{EventName}</code> (defaults to service name).</li>
+<li>If Redis is not available, consumers keep retrying (server keeps running).</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="websocket-2"><a class="header" href="#websocket-2">WebSocket</a></h1>
+<p>WebSocket services are defined with inbound/outbound message contracts. Each message is routed to a handler.</p>
+<h2 id="dsl-3"><a class="header" href="#dsl-3">DSL</a></h2>
+<pre><code class="language-ns">service Chat:
+    socket Chat "/ws":
+        auth bearer
+        middleware logging
+        rate_limit 100/min
+        headers:
+            authorization: string
+
+        inbound:
+            Join -&gt; chat.on_join
+            MessageIn -&gt; chat.on_message
+
+        outbound:
+            MessageOut -&gt; chat.send_message
+            UserJoined -&gt; chat.user_joined
+</code></pre>
+<h2 id="modules-in-websocket-handlers"><a class="header" href="#modules-in-websocket-handlers">Modules in WebSocket Handlers</a></h2>
+<pre><code class="language-ns">use chat "./modules/chat.rs"
+
+service Chat:
+    socket Chat "/ws":
+        inbound:
+            Join -&gt; chat.on_join
+            MessageIn -&gt; chat.on_message
+        outbound:
+            MessageOut -&gt; chat.send_message
+</code></pre>
+<p>The referenced module path is copied into the generated service under <code>modules/</code>.
+If the handler function does not exist, generation fails and you need to add the implementation in your module.</p>
+<h2 id="module-examples-logic-2"><a class="header" href="#module-examples-logic-2">Module Examples (Logic)</a></h2>
+<h3 id="rust-2"><a class="header" href="#rust-2">Rust</a></h3>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use crate::types::{MessageOut};
+
+pub async fn on_join(ctx: ChatSocketContext, _payload: serde_json::Value) {
+    ctx.send_message_out(MessageOut { text: Some("welcome".into()) }).await;
+}
+
+pub async fn on_message(ctx: ChatSocketContext, payload: serde_json::Value) {
+    let text = payload.get("text").and_then(|v| v.as_str()).unwrap_or("");
+    ctx.send_message_out(MessageOut { text: Some(format!("echo: {}", text)) }).await;
+}
+<span class="boring">}</span></code></pre>
+<h3 id="go-2"><a class="header" href="#go-2">Go</a></h3>
+<pre><code class="language-go">package modules
+
+import "encoding/json"
+
+func OnJoin(ctx ChatSocketContext, _ json.RawMessage) {
+	ctx.SendMessageOut(MessageOut{Text: "welcome"})
+}
+
+func OnMessage(ctx ChatSocketContext, payload json.RawMessage) {
+	var body struct{ Text string `json:"text"` }
+	_ = json.Unmarshal(payload, &amp;body)
+	ctx.SendMessageOut(MessageOut{Text: "echo: " + body.Text})
+}
+</code></pre>
+<h3 id="typescript-2"><a class="header" href="#typescript-2">TypeScript</a></h3>
+<pre><code class="language-ts">import type { MessageOut } from "../types";
+
+export async function onJoin(ctx: ChatSocketContext, _payload: any) {
+  await ctx.sendMessageOut({ text: "welcome" } as MessageOut);
+}
+
+export async function onMessage(ctx: ChatSocketContext, payload: { text?: string }) {
+  await ctx.sendMessageOut({ text: `echo: ${payload.text ?? ""}` } as MessageOut);
+}
+</code></pre>
+<h2 id="inbound-vs-outbound"><a class="header" href="#inbound-vs-outbound">Inbound vs Outbound</a></h2>
+<ul>
+<li><strong>Inbound</strong>: client → server messages. These trigger handler calls.</li>
+<li><strong>Outbound</strong>: server → client messages. These define what the server can emit and generate helpers on the socket context.</li>
+</ul>
+<h2 id="rooms--topics"><a class="header" href="#rooms--topics">Rooms / Topics</a></h2>
+<pre><code class="language-ns">socket Chat "/ws":
+    room "chat"
+    room "notifications"
+</code></pre>
+<p>Rooms are validated against the declared list. <code>topic</code> is an alias for <code>room</code>.</p>
+<h2 id="custom-triggers"><a class="header" href="#custom-triggers">Custom Triggers</a></h2>
+<p>If a message is not reserved, it must be declared as a trigger with a payload type.</p>
+<pre><code class="language-ns">socket Chat "/ws":
+    room "chat"
+
+    trigger SendMessage:
+        room "chat"
+        payload ChatMessage
+
+    inbound:
+        SendMessage -&gt; chat.send_message
+</code></pre>
+<p>Rules:</p>
+<ul>
+<li>Each inbound/outbound message must include <code>-&gt; module.func</code>.</li>
+<li>Custom messages must be declared using <code>trigger &lt;Name&gt;:</code>.</li>
+<li><code>trigger</code> requires <code>payload &lt;Type&gt;</code>.</li>
+<li><code>trigger room "..."</code> is optional, but if set it must exist in <code>room</code> list.</li>
+</ul>
+<h2 id="reserved-events"><a class="header" href="#reserved-events">Reserved Events</a></h2>
+<p>Reserved events are built‑in and do not require a <code>trigger</code> declaration:</p>
+<ul>
+<li><code>Join</code>, <code>Exit</code>, <code>MessageIn</code>, <code>MessageOut</code>, <code>Typing</code>, <code>Ping</code>, <code>Pong</code>, <code>Auth</code>, <code>Subscribe</code>, <code>Unsubscribe</code>,
+<code>RoomJoin</code>, <code>RoomLeave</code>, <code>Ack</code>, <code>Receipt</code>, <code>UserJoined</code>, <code>UserLeft</code>, <code>Error</code>, <code>ServerNotice</code>.</li>
+</ul>
+<h3 id="reserved-payloads"><a class="header" href="#reserved-payloads">Reserved Payloads</a></h3>
+<p>Reserved events use predefined payload shapes:</p>
+<ul>
+<li><code>Join</code>: <code>{}</code></li>
+<li><code>Exit</code>: <code>{}</code></li>
+<li><code>MessageIn</code>: <code>{ text?: string }</code></li>
+<li><code>MessageOut</code>: <code>{ text?: string }</code></li>
+<li><code>Typing</code>: <code>{ active?: bool }</code></li>
+<li><code>Ping</code>: <code>{}</code></li>
+<li><code>Pong</code>: <code>{}</code></li>
+<li><code>Auth</code>: <code>{ token?: string }</code></li>
+<li><code>Subscribe</code>: <code>{ topic?: string }</code></li>
+<li><code>Unsubscribe</code>: <code>{ topic?: string }</code></li>
+<li><code>RoomJoin</code>: <code>{ room?: string }</code></li>
+<li><code>RoomLeave</code>: <code>{ room?: string }</code></li>
+<li><code>Ack</code>: <code>{ id?: string }</code></li>
+<li><code>Receipt</code>: <code>{ id?: string }</code></li>
+<li><code>UserJoined</code>: <code>{ user_id?: string }</code></li>
+<li><code>UserLeft</code>: <code>{ user_id?: string }</code></li>
+<li><code>Error</code>: <code>{ message?: string }</code></li>
+<li><code>ServerNotice</code>: <code>{ message?: string }</code></li>
+</ul>
+<p>Reserved payload types are generated into <code>types.*</code> automatically.
+If you need a strict payload shape, define a custom trigger instead.</p>
+<h2 id="handler-signature"><a class="header" href="#handler-signature">Handler Signature</a></h2>
+<p>Generated handlers receive:</p>
+<ul>
+<li><code>ctx</code> — socket context (headers, send helpers, room helpers).</li>
+<li><code>payload</code> — message body (<code>frame.data</code>).</li>
+</ul>
+<p>Example (TypeScript):</p>
+<pre><code class="language-ts">export async function on_message(ctx: ChatSocketContext, payload: { text?: string }) {
+  // ...
+}
+</code></pre>
+<h2 id="runtime-notes"><a class="header" href="#runtime-notes">Runtime Notes</a></h2>
+<ul>
+<li><code>Join</code> handler is called automatically on connection.</li>
+<li><code>Exit</code> handler is called automatically on disconnect.</li>
+<li><code>Ping</code> without a handler auto‑responds with <code>Pong</code>.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="generation-output-structure"><a class="header" href="#generation-output-structure">Generation Output Structure</a></h1>
+<p>This chapter explains what the generator creates on disk for each service.</p>
+<h2 id="root-layout"><a class="header" href="#root-layout">Root layout</a></h2>
+<p>If <code>output</code> is not set, files are generated under:</p>
+<pre><code>.nimesvc/&lt;ServiceName&gt;/
+</code></pre>
+<p>If <code>output "./server"</code> is set, files are generated under:</p>
+<pre><code>./server/&lt;ServiceName&gt;/
+</code></pre>
+<h2 id="rust-3"><a class="header" href="#rust-3">Rust</a></h2>
+<p>Typical layout:</p>
+<pre><code>&lt;out&gt;/&lt;ServiceName&gt;/
+  Cargo.toml
+  rpc.proto
+  src/
+    main.rs
+    types.rs
+    middleware.rs
+    events.rs
+    remote_calls.rs
+    modules/
+      ...
+</code></pre>
+<p>What each file does:</p>
+<ul>
+<li><code>main.rs</code> — server bootstrap (routes, middleware, listeners).</li>
+<li><code>types.rs</code> — generated DSL types and enums.</li>
+<li><code>middleware.rs</code> — generated HTTP middleware/auth helpers when needed.</li>
+<li><code>modules/</code> — copied local modules used by the service.</li>
+<li><code>events.rs</code> — generated event helpers when events exist.</li>
+<li><code>remote_calls.rs</code> — generated inter-service HTTP helpers when needed.</li>
+<li><code>rpc.proto</code> — generated when RPC methods exist.</li>
+</ul>
+<h2 id="typescript-3"><a class="header" href="#typescript-3">TypeScript</a></h2>
+<p>Typical layout:</p>
+<pre><code>&lt;out&gt;/&lt;ServiceName&gt;/
+  package.json
+  tsconfig.json
+  install.sh
+  rpc.proto
+  src/
+    index.ts
+    types.ts
+    middleware.ts
+    events.ts
+    remote_calls.ts
+    modules/
+      ...
+</code></pre>
+<p>What each file does:</p>
+<ul>
+<li><code>index.ts</code> — server bootstrap and route wiring.</li>
+<li><code>types.ts</code> — generated DSL types and parsing helpers.</li>
+<li><code>middleware.ts</code> — generated middleware/auth helpers when needed.</li>
+<li><code>modules/</code> — copied local modules used by the service.</li>
+<li><code>events.ts</code> — generated event helpers when events exist.</li>
+<li><code>remote_calls.ts</code> — generated inter-service HTTP helpers when needed.</li>
+<li><code>rpc.proto</code> — generated when RPC methods exist.</li>
+</ul>
+<h2 id="go-3"><a class="header" href="#go-3">Go</a></h2>
+<p>Typical layout:</p>
+<pre><code>&lt;out&gt;/&lt;ServiceName&gt;/
+  go.mod
+  main.go
+  middleware.go
+  events.go
+  remote_calls.go
+  rpc.proto
+  types/
+    types.go
+  modules/
+    &lt;module&gt;/
+      ...
+</code></pre>
+<p>What each file does:</p>
+<ul>
+<li><code>main.go</code> — server bootstrap (routes, middleware, listeners).</li>
+<li><code>types/types.go</code> — generated DSL types and enums.</li>
+<li><code>middleware.go</code> — generated middleware/auth helpers when needed.</li>
+<li><code>modules/</code> — copied local modules used by the service.</li>
+<li><code>events.go</code> — generated event helpers when events exist.</li>
+<li><code>remote_calls.go</code> — generated inter-service HTTP helpers when needed.</li>
+<li><code>rpc.proto</code> — generated when RPC methods exist.</li>
+</ul>
+<h2 id="notes"><a class="header" href="#notes">Notes</a></h2>
+<ul>
+<li>Generated files are meant to be disposable build output.</li>
+<li>Keep business logic in source modules referenced by <code>use</code>.</li>
+<li><code>types.*</code>, <code>middleware.*</code>, <code>remote_calls.*</code>, and event helper files are regenerated output.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="cli-reference"><a class="header" href="#cli-reference">CLI Reference</a></h1>
+<p>This chapter describes the main <code>nimesvc</code> commands and when to use them.</p>
+<h2 id="init"><a class="header" href="#init"><code>init</code></a></h2>
+<pre><code class="language-bash">nimesvc init
+</code></pre>
+<p>Creates a starter <code>main.ns</code> file and a local <code>.nimesvc/</code> directory.</p>
+<h2 id="build"><a class="header" href="#build"><code>build</code></a></h2>
+<pre><code class="language-bash">nimesvc build api.ns --output ./openapi
+nimesvc build api.ns --output ./openapi --json
+</code></pre>
+<p>Builds OpenAPI 3.0.3 output from the HTTP part of the DSL.</p>
+<ul>
+<li>Default format: YAML</li>
+<li><code>--json</code>: JSON output</li>
+</ul>
+<h2 id="generate"><a class="header" href="#generate"><code>generate</code></a></h2>
+<p>Generate HTTP servers:</p>
+<pre><code class="language-bash">nimesvc generate api.ns rust --out ./.nimesvc
+nimesvc generate api.ns ts --out ./.nimesvc
+nimesvc generate api.ns go --out ./.nimesvc
+</code></pre>
+<p>Generate the whole project, including gRPC output for services that declare <code>rpc</code>:</p>
+<pre><code class="language-bash">nimesvc generate api.ns --lang rust
+</code></pre>
+<p>Generate only gRPC output:</p>
+<pre><code class="language-bash">nimesvc generate api.ns grpc --lang rust --out ./grpc-rust
+</code></pre>
+<p>Notes:</p>
+<ul>
+<li>Each service is generated into its own folder.</li>
+<li>If <code>output</code> is set in the DSL, <code>--out</code> can be omitted.</li>
+<li>gRPC output uses <code>&lt;out&gt;/&lt;ServiceName&gt;-grpc</code>.</li>
+<li>Without explicit <code>grpc</code>, <code>generate</code> also emits gRPC output automatically for services with <code>rpc</code>.</li>
+</ul>
+<h2 id="run"><a class="header" href="#run"><code>run</code></a></h2>
+<pre><code class="language-bash">nimesvc run api.ns
+nimesvc run api.ns rust
+nimesvc run api.ns --lang rust
+</code></pre>
+<p>Runs the generated services for the file. A positional language or <code>--lang</code> can override the language declared in the DSL.
+If the project contains <code>rpc</code>, <code>run</code> also starts gRPC outputs automatically for those services.</p>
+<p>Run only gRPC outputs:</p>
+<pre><code class="language-bash">nimesvc run api.ns grpc --lang rust --out ./grpc-rust
+</code></pre>
+<h2 id="dev"><a class="header" href="#dev"><code>dev</code></a></h2>
+<pre><code class="language-bash">nimesvc dev api.ns rust
+nimesvc dev api.ns --lang rust
+nimesvc dev api.ns grpc --lang rust --out ./grpc-rust
+</code></pre>
+<p><code>dev</code> watches the input <code>.ns</code> file, local module files referenced through <code>use</code>, and common environment files such as <code>.env</code> and <code>.env.local</code>, then restarts <code>nimesvc run</code> when they change.
+Without explicit <code>grpc</code>, <code>dev</code> also starts gRPC outputs automatically for services with <code>rpc</code>.</p>
+<p>Useful options:</p>
+<ul>
+<li><code>--out &lt;dir&gt;</code> to control the output directory</li>
+<li><code>--lang &lt;rust|ts|go&gt;</code> when the DSL does not declare a language or when you want a unified project-wide language override</li>
+<li><code>--no-log</code> to avoid writing runtime logs</li>
+<li><code>--debounce-ms &lt;N&gt;</code> to control polling frequency</li>
+</ul>
+<p>Output model:</p>
+<ul>
+<li><code>Dev: ...</code> lines are watcher status lines</li>
+<li><code>[run] ...</code> lines are live stdout from <code>nimesvc run</code> and the generated service</li>
+<li><code>[err] ...</code> lines are live stderr from <code>nimesvc run</code> and the generated service</li>
+</ul>
+<p>Typical status flow:</p>
+<ul>
+<li><code>scanning</code>: read the project and discover watched files</li>
+<li><code>parsed</code>: the current DSL parses successfully</li>
+<li><code>generating</code> / <code>generated</code>: refresh generated output before starting the service</li>
+<li><code>watching</code>: print the current watch set</li>
+<li><code>starting</code> / <code>running</code>: launch the generated service and attach live output</li>
+<li><code>restart</code>: detect changed files and restart the service</li>
+<li><code>failed</code>: keep watching after a parse or startup error</li>
+<li><code>waiting</code>: project is currently invalid or the service exited; waiting for the next change</li>
+</ul>
+<h2 id="stop"><a class="header" href="#stop"><code>stop</code></a></h2>
+<pre><code class="language-bash">nimesvc stop api.ns
+</code></pre>
+<p>Stops running outputs for the file, including standard service outputs and gRPC outputs.</p>
+<h2 id="lint"><a class="header" href="#lint"><code>lint</code></a></h2>
+<pre><code class="language-bash">nimesvc lint api.ns
+</code></pre>
+<p>Runs static checks and project warnings.</p>
+<p>Typical lint output includes:</p>
+<ul>
+<li>unused modules</li>
+<li>empty services</li>
+<li>event configuration without <code>emit</code> or <code>subscribe</code></li>
+</ul>
+<h2 id="fmt"><a class="header" href="#fmt"><code>fmt</code></a></h2>
+<pre><code class="language-bash">nimesvc fmt api.ns
+nimesvc fmt api.ns --check
+</code></pre>
+<p>Formats a DSL file or checks whether it already matches canonical formatting.</p>
+<h2 id="env-1"><a class="header" href="#env-1"><code>env</code></a></h2>
+<pre><code class="language-bash">nimesvc env api.ns
+</code></pre>
+<p>Prints environment requirements discovered from the DSL.</p>
+<h2 id="doctor"><a class="header" href="#doctor"><code>doctor</code></a></h2>
+<pre><code class="language-bash">nimesvc doctor
+</code></pre>
+<p>Checks local toolchains and validates <code>.ns</code> files found in the current project tree.</p>
+<p>Doctor currently:</p>
+<ul>
+<li>reports missing Rust, Go, Node, and Bun tooling</li>
+<li>parses discovered <code>.ns</code> files</li>
+<li>validates module paths and references where possible</li>
+</ul>
+<h2 id="update"><a class="header" href="#update"><code>update</code></a></h2>
+<pre><code class="language-bash">nimesvc update
+</code></pre>
+<p>Updates the binary from GitHub Releases.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="runtime-behavior-4"><a class="header" href="#runtime-behavior-4">Runtime Behavior</a></h1>
+<p>This chapter explains how generated servers behave at runtime and what guarantees you get.</p>
+<h2 id="request-parsing"><a class="header" href="#request-parsing">Request Parsing</a></h2>
+<ul>
+<li><code>path</code>, <code>query</code>, <code>body</code>, <code>headers</code> are parsed into typed structs.</li>
+<li>Optional fields are allowed to be absent.</li>
+<li>Parsing failures return <code>400</code> with a structured JSON error.</li>
+</ul>
+<h2 id="validation"><a class="header" href="#validation">Validation</a></h2>
+<ul>
+<li>Validation rules are enforced before handlers run.</li>
+<li>Errors include the field and constraint that failed.</li>
+<li>For nested objects, error paths use dot notation (e.g. <code>user.email</code>).</li>
+</ul>
+<h2 id="rate-limiting"><a class="header" href="#rate-limiting">Rate Limiting</a></h2>
+<ul>
+<li><code>rate_limit</code> can be applied at service, route, socket, or RPC method level.</li>
+<li>HTTP: when the limit is exceeded, the server returns <code>429</code>.</li>
+<li>WebSocket: when the limit is exceeded, the server sends an <code>Error</code> frame and ignores the message.</li>
+</ul>
+<h2 id="auth--middleware"><a class="header" href="#auth--middleware">Auth &amp; Middleware</a></h2>
+<ul>
+<li><code>auth</code> and <code>middleware</code> can be set at service, route, or socket levels.</li>
+<li>Generated HTTP auth middleware returns <code>401</code> when required credentials are missing.</li>
+<li>Generated custom middleware hooks run before handler calls and can reject the request.</li>
+<li>Generated socket middleware validates inbound message kinds before handler dispatch.</li>
+</ul>
+<h2 id="errors-1"><a class="header" href="#errors-1">Errors</a></h2>
+<ul>
+<li>HTTP: non‑<code>2xx</code> responses are serialized to JSON and mapped into client errors.</li>
+<li>RPC: runtime errors map to gRPC status codes (see generated server).</li>
+<li>WebSocket: errors are sent as <code>Error</code> frames.</li>
+</ul>
+<h2 id="events-1"><a class="header" href="#events-1">Events</a></h2>
+<ul>
+<li>Memory mode dispatches to in-process handlers.</li>
+<li>Redis mode publishes serialized payloads to streams.</li>
+<li><code>subscribe</code> creates consumer loops and dispatches payloads to registered handlers.</li>
+<li>Redis consumer groups are created lazily on first run.</li>
+</ul>
+<h2 id="websocket-3"><a class="header" href="#websocket-3">WebSocket</a></h2>
+<ul>
+<li>Inbound messages are parsed into <code>{ type, data, room? }</code>.</li>
+<li><code>Join</code> handler is triggered on connect; <code>Exit</code> on disconnect.</li>
+<li><code>Ping</code> without a handler auto‑responds with <code>Pong</code>.</li>
+<li>Room helpers are generated when <code>room</code>/<code>topic</code> are declared.</li>
+</ul>
+<h2 id="rpc"><a class="header" href="#rpc">RPC</a></h2>
+<ul>
+<li><code>input</code> and <code>headers</code> are validated like HTTP inputs.</li>
+<li><code>call</code> is invoked with typed values and its result is returned to the gRPC client.</li>
+</ul>
+<h2 id="runtime-coverage-notes"><a class="header" href="#runtime-coverage-notes">Runtime Coverage Notes</a></h2>
+<ul>
+<li>The HTTP runtime path currently has the strongest generator and test coverage.</li>
+<li>Events support both in-memory and Redis-backed flows.</li>
+<li>gRPC and WebSocket runtimes are implemented and covered by smoke and end-to-end tests, but still have less long-running usage coverage than HTTP.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="faq"><a class="header" href="#faq">FAQ</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h1>
+<h2 id="doctor-reports-missing-tools"><a class="header" href="#doctor-reports-missing-tools"><code>doctor</code> reports missing tools</a></h2>
+<p>Install the missing runtime or toolchain first:</p>
+<ul>
+<li>Rust for Rust generation</li>
+<li>Go for Go generation</li>
+<li>Node and Bun for TypeScript generation</li>
+<li><code>mdbook</code> for documentation builds</li>
+</ul>
+<p>Then run:</p>
+<pre><code class="language-bash">nimesvc doctor
+</code></pre>
+<h2 id="generation-fails-because-a-module-function-cannot-be-found"><a class="header" href="#generation-fails-because-a-module-function-cannot-be-found">Generation fails because a module function cannot be found</a></h2>
+<p>Check that:</p>
+<ul>
+<li>the module path in <code>use</code> is correct</li>
+<li>the file exists</li>
+<li>the referenced function name exists in that module</li>
+<li>the function signature matches what the generated handler expects</li>
+</ul>
+<h2 id="a-cross-service-call-fails-during-generation"><a class="header" href="#a-cross-service-call-fails-during-generation">A cross-service call fails during generation</a></h2>
+<p>Check that:</p>
+<ul>
+<li>the target service exists in the same DSL file</li>
+<li>the target route exists</li>
+<li>the referenced path, query, body, and header fields are declared</li>
+<li><code>base_url</code> is valid if you override it</li>
+</ul>
+<h2 id="websocket-connection-works-but-messages-fail"><a class="header" href="#websocket-connection-works-but-messages-fail">WebSocket connection works but messages fail</a></h2>
+<p>Check that:</p>
+<ul>
+<li>the inbound message type is declared</li>
+<li>custom message kinds use <code>trigger</code></li>
+<li>the payload shape matches the declared type</li>
+<li>required socket headers or auth values are present</li>
+<li>room-bound triggers use a declared room name</li>
+</ul>
+<h2 id="grpc-generation-or-runtime-fails"><a class="header" href="#grpc-generation-or-runtime-fails">gRPC generation or runtime fails</a></h2>
+<p>Check that:</p>
+<ul>
+<li>the <code>rpc</code> block appears before <code>service</code></li>
+<li>the target service name exists</li>
+<li><code>output</code> is declared</li>
+<li>your language-specific gRPC dependencies are installed</li>
+</ul>
+<h2 id="formatting-or-linting-fails"><a class="header" href="#formatting-or-linting-fails">Formatting or linting fails</a></h2>
+<p>Run:</p>
+<pre><code class="language-bash">nimesvc fmt api.ns
+nimesvc lint api.ns
+</code></pre>
+<p>Formatting issues are usually safe to auto-fix. Lint warnings often point to unused modules, empty services, or incomplete event wiring.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+
+    </div>
+    </body>
+</html>

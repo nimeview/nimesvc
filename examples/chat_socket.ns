@@ -1,0 +1,13 @@
+service Chat ts:
+    config:
+        address: "127.0.0.1"
+        port: 8083
+
+    use chat "./examples/modules/chat.ts"
+
+    socket Chat "/ws":
+        inbound:
+            Join -> chat.onJoin
+            MessageIn -> chat.onMessage
+        outbound:
+            MessageOut -> chat.sendMessage

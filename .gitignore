@@ -1,0 +1,19 @@
+/target
+**/*.rs.bk
+Cargo.lock
+.idea/
+.vscode/
+/tests
+*.swp
+*~
+.DS_Store
+/.nimesvc
+/.tools
+/docs/ru
+
+
+# Added by cargo
+#
+# already existing elements were commented out
+
+#/target

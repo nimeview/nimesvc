@@ -1,0 +1,199 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fmt:
+    name: Rust Format
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Check formatting
+        run: cargo fmt -- --check
+
+  check:
+    name: Rust Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Run cargo check
+        run: cargo check --all-targets
+
+  clippy:
+    name: Rust Clippy
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Run clippy
+        run: cargo clippy --all-targets --all-features
+
+  tests:
+    name: Core Rust Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Run full test suite
+        run: cargo test
+
+  docs:
+    name: Docs Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Install mdBook
+        run: cargo install mdbook --locked
+
+      - name: Build docs
+        run: mdbook build ./docs
+
+  language-smoke:
+    name: Language Smoke (${{ matrix.lang }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        lang: [rust, go, ts]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Setup Go
+        if: matrix.lang == 'go'
+        uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+
+      - name: Install protoc
+        if: matrix.lang == 'rust' || matrix.lang == 'go'
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+
+      - name: Install Go gRPC protoc plugins
+        if: matrix.lang == 'go'
+        run: |
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+      - name: Setup Node.js
+        if: matrix.lang == 'ts'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Setup Bun
+        if: matrix.lang == 'ts'
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Rust CLI smoke
+        if: matrix.lang == 'rust'
+        run: cargo test --test e2e_rust_cli
+
+      - name: Rust WebSocket smoke
+        if: matrix.lang == 'rust'
+        run: cargo test --test e2e_rust_websocket
+
+      - name: Rust WebSocket rooms smoke
+        if: matrix.lang == 'rust'
+        run: cargo test --test e2e_rust_websocket_rooms
+
+      - name: Rust WebSocket auth and headers smoke
+        if: matrix.lang == 'rust'
+        run: cargo test --test e2e_rust_websocket_auth_headers
+
+      - name: Rust WebSocket rate limit smoke
+        if: matrix.lang == 'rust'
+        run: cargo test --test e2e_rust_websocket_rate_limit
+
+      - name: Rust gRPC smoke
+        if: matrix.lang == 'rust'
+        run: cargo test --test e2e_rust_grpc
+
+      - name: Go CLI smoke
+        if: matrix.lang == 'go'
+        run: cargo test --test e2e_go_cli
+
+      - name: Go WebSocket smoke
+        if: matrix.lang == 'go'
+        run: cargo test --test e2e_go_websocket
+
+      - name: Go gRPC smoke
+        if: matrix.lang == 'go'
+        run: cargo test --test e2e_go_grpc
+
+      - name: TypeScript CLI smoke
+        if: matrix.lang == 'ts'
+        run: cargo test --test e2e_ts_cli
+
+      - name: TypeScript WebSocket smoke
+        if: matrix.lang == 'ts'
+        run: cargo test --test e2e_ts_websocket
+
+      - name: TypeScript gRPC smoke
+        if: matrix.lang == 'ts'
+        run: cargo test --test e2e_ts_grpc

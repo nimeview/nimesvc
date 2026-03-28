@@ -1,0 +1,6 @@
+[book]
+title = "nimesvc"
+src = "src"
+
+[output.html]
+smart-punctuation = true

@@ -1,0 +1,64 @@
+version 1
+
+type User:
+    id: int
+    name: string
+    status: Status
+
+type User@2:
+    id: int
+    name: string
+    email: string
+
+enum Status:
+    Active
+    Disabled
+
+event UserCreated:
+    payload { id: int, name: string }
+
+rpc Runtime.GetUser:
+    input:
+        id: int
+    output User@2
+    call sync rt.get_user(input.id)
+
+service Runtime rs:
+    address "127.0.0.1"
+    port 4101
+
+    use rt "./modules/rt.rs"
+
+    GET "/health":
+        response string
+        call sync rt.health
+
+    POST "/users":
+        input:
+            body:
+                name: string
+                email: string
+        response 201 User@2
+        call sync rt.create_user(body.name, body.email)
+
+    POST "/emit":
+        response string
+        call sync rt.emit_event
+
+    GET "/count":
+        response int
+        call sync rt.get_count
+
+    socket Chat "/ws":
+        use rt "./modules/rt.rs"
+        auth bearer
+        headers:
+            authorization: string
+        inbound:
+            Join -> rt.ws_join
+            MessageIn -> rt.ws_message_in
+            Ping -> rt.ws_ping
+            Exit -> rt.ws_exit
+        outbound:
+            MessageOut -> rt.ws_message_out
+            Error -> rt.ws_error
