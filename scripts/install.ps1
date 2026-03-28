@@ -3,7 +3,7 @@ Param(
   [string]$InstallDir = $env:NIMESVC_INSTALL_DIR
 )
 
-if (-not $Repo) { $Repo = "nimeview/NimeScript" }
+if (-not $Repo) { $Repo = "nimeview/nimesvc" }
 if (-not $InstallDir) { $InstallDir = "$env:USERPROFILE\.nimesvc\bin" }
 
 $arch = $env:PROCESSOR_ARCHITECTURE

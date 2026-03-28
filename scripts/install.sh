@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO="${NIMESVC_REPO:-nimeview/NimeScript}"
+REPO="${NIMESVC_REPO:-nimeview/nimesvc}"
 INSTALL_DIR="${NIMESVC_INSTALL_DIR:-$HOME/.nimesvc/bin}"
 
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
